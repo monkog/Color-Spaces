@@ -7,6 +7,27 @@ namespace ColorSpaces.ImageConverters
 	public static class ColorSpaceConverter
 	{
 		/// <summary>
+		/// Converts the given color to the desired color space.
+		/// </summary>
+		/// <param name="xyz">Color in CIE XYZ color space.</param>
+		/// <param name="colorSpace">Color space to convert to.</param>
+		/// <returns>Color in desired color space.</returns>
+		public static Color ConvertTo(this double[] xyz, ColorSpace colorSpace)
+		{
+			switch (colorSpace)
+			{
+				case ColorSpace.AdobeRgb:
+					return xyz.ToAdobeSpace();
+				case ColorSpace.AppleRgb:
+					return xyz.ToAppleSpace();
+				case ColorSpace.WideGamut:
+					return xyz.ToWideGamutSpace();
+				default:
+					throw new ArgumentException($"The {colorSpace} is not supported.");
+			}
+		}
+
+		/// <summary>
 		/// Returns the provided color in CIE XYZ color space.
 		/// Uses gamma conversion to optimize the color.
 		/// </summary>
@@ -33,7 +54,7 @@ namespace ColorSpaces.ImageConverters
 		/// </summary>
 		/// <param name="xyz">Provided color in XYZ coordinates</param>
 		/// <returns>Color in Adobe RGB color space</returns>
-		public static Color ToAdobeSpace(this double[] xyz)
+		private static Color ToAdobeSpace(this double[] xyz)
 		{
 			// Assuming that white point is D50.
 			// Uses the Bradford-adapted XYZ to RGB matrix.
@@ -54,7 +75,7 @@ namespace ColorSpaces.ImageConverters
 		/// </summary>
 		/// <param name="xyz">Provided color in XYZ coordinates</param>
 		/// <returns>Color in Apple RGB color space</returns>
-		public static Color ToAppleSpace(this double[] xyz)
+		private static Color ToAppleSpace(this double[] xyz)
 		{
 			// Assuming that white point is D50.
 			// Uses the Bradford-adapted XYZ to RGB matrix.
@@ -75,7 +96,7 @@ namespace ColorSpaces.ImageConverters
 		/// </summary>
 		/// <param name="xyz">Provided color in XYZ coordinates</param>
 		/// <returns>Color in Wide Gamut color space</returns>
-		public static Color ToWideGamutSpace(this double[] xyz)
+		private static Color ToWideGamutSpace(this double[] xyz)
 		{
 			// Assuming that white point is D50.
 			// Uses the Bradford-adapted XYZ to RGB matrix.
