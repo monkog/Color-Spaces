@@ -14,7 +14,7 @@ namespace UnitTestProject1
 		[TestCase(2.5, 255)]
 		public void ToRgb_Parameter_Result(double parameter, int expectedResult)
 		{
-			var result = MainWindow.ToRgb(parameter);
+			var result = parameter.ToRgb();
 			Assert.AreEqual(expectedResult, result);
 		}
 	}

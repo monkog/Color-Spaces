@@ -47,21 +47,6 @@ namespace ColorSpaces
         }
 
         /// <summary>
-        /// Returns R,G and B values in range [0,255].
-        /// </summary>
-        /// <param name="n">R,G,B value in range [0,1]</param>
-        /// <returns>R,G,B value in range [0,255]</returns>
-        public static int ToRgb(double n)
-        {
-            var result = (int)(255.0 * n);
-
-	        if (result <= 0) return 0;
-	        if (result >= 255) return 255;
-
-	        return result;
-        }
-
-        /// <summary>
         /// Converts image to gray-scale using average algorithm.
         /// </summary>
         void ConvertToGrayScale()
@@ -169,7 +154,7 @@ namespace ColorSpaces
             g = Math.Pow(g, 1 / 2.2);
             b = Math.Pow(b, 1 / 2.2);
 
-            return Color.FromArgb(255, ToRgb(r), ToRgb(g), ToRgb(b));
+            return Color.FromArgb(255, r.ToRgb(), g.ToRgb(), b.ToRgb());
         }
 
         /// <summary>
@@ -196,7 +181,7 @@ namespace ColorSpaces
             g = Math.Pow(g, 1 / 1.8);
             b = Math.Pow(b, 1 / 1.8);
 
-            return Color.FromArgb(255, ToRgb(r), ToRgb(g), ToRgb(b));
+            return Color.FromArgb(255, r.ToRgb(), g.ToRgb(), b.ToRgb());
         }
 
         /// <summary>
@@ -217,7 +202,7 @@ namespace ColorSpaces
             g = Math.Pow(g, 1 / 1.2);
             b = Math.Pow(b, 1 / 1.2);
 
-            return Color.FromArgb(255, ToRgb(r), ToRgb(g), ToRgb(b));
+            return Color.FromArgb(255, r.ToRgb(), g.ToRgb(), b.ToRgb());
         }
 
         /// <summary>
@@ -309,9 +294,9 @@ namespace ColorSpaces
                     if (gI == kG) gI--;
                     if (bI == kB) bI--;
 
-                    int r = ToRgb((rI + 0.5) * intervalR / 255);
-                    int g = ToRgb((gI + 0.5) * intervalG / 255);
-                    int b = ToRgb((bI + 0.5) * intervalB / 255);
+                    int r = ((rI + 0.5) * intervalR / 255).ToRgb();
+                    int g = ((gI + 0.5) * intervalG / 255).ToRgb();
+                    int b = ((bI + 0.5) * intervalB / 255).ToRgb();
                     color = Color.FromArgb(255, r, g, b);
                     outputBitmap.SetPixel(i, j, color);
                 }
