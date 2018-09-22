@@ -1,31 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using Color = System.Drawing.Color;
 
-namespace PrzestrzenieKolorow
+namespace ColorSpaces
 {
-    /// <summary>
-    /// Author: Monika Kogut
-    /// This demo converts the color space of a picture.
-    /// Most of the information was provided from the articles:
-    /// http://www.babelcolor.com/download/A%20comparison%20of%20four%20multimedia%20RGB%20spaces.pdf
-    /// http://www.babelcolor.com/download/A%20review%20of%20RGB%20color%20spaces.pdf
-    /// and the site:
-    /// http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
-    /// </summary>
-    public partial class MainWindow : Window
+	/// <summary>
+	/// Author: Monika Kogut
+	/// This demo converts the color space of a picture.
+	/// Most of the information was provided from the articles:
+	/// http://www.babelcolor.com/download/A%20comparison%20of%20four%20multimedia%20RGB%20spaces.pdf
+	/// http://www.babelcolor.com/download/A%20review%20of%20RGB%20color%20spaces.pdf
+	/// and the site:
+	/// http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
+	/// </summary>
+	public partial class MainWindow : Window
     {
         Bitmap m_sourceBitmap;
         ImageBrush m_whiteSmokeBitmap;

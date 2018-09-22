@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrzestrzenieKolorow", "PrzestrzenieKolorow\PrzestrzenieKolorow.csproj", "{979CEAC8-D9CD-45D4-91CC-737F06A8D1BF}"
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2016
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorSpaces", "ColorSpaces\ColorSpaces.csproj", "{979CEAC8-D9CD-45D4-91CC-737F06A8D1BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,5 +18,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F1E41465-3549-4528-966B-D9498B4E71ED}
 	EndGlobalSection
 EndGlobal

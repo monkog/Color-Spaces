@@ -1,4 +1,4 @@
-﻿<Window x:Class="PrzestrzenieKolorow.MainWindow"
+﻿<Window x:Class="ColorSpaces.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Color Spaces Demo" Height="640.933" Width="560.333" WindowState="Maximized">
