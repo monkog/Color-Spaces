@@ -126,8 +126,57 @@ namespace ColorSpaces
 
         private void ReduceButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_sourceBitmap != null)
-                ReduceColors(int.Parse(Kr.Text), int.Parse(Kg.Text), int.Parse(Kb.Text));
-        }
-    }
+	        if (_sourceBitmap == null) return;
+	        OutputPhoto.Background = _sourceBitmap.ReduceColors(int.Parse(Kr.Text), int.Parse(Kg.Text), int.Parse(Kb.Text));
+		}
+		/// <summary>
+		/// Converts color space of an image to the chosen color space.
+		/// </summary>
+		/// <param name="colorSpace">The chosen color space</param>
+		void ConvertToColorSpace(ColorSpace colorSpace)
+		{
+			var outputBitmap = new Bitmap(_sourceBitmap.Width, _sourceBitmap.Height);
+
+			for (int i = 0; i < outputBitmap.Width; i++)
+				for (int j = 0; j < outputBitmap.Height; j++)
+				{
+					var color = _sourceBitmap.GetPixel(i, j);
+					var xyz = color.ToCieXyz();
+					switch (colorSpace)
+					{
+						case ColorSpace.AdobeRgb:
+							color = xyz.ToAdobeSpace();
+							break;
+						case ColorSpace.AppleRgb:
+							color = xyz.ToAppleSpace();
+							break;
+						case ColorSpace.WideGamut:
+							color = xyz.ToWideGamutSpace();
+							break;
+					}
+					outputBitmap.SetPixel(i, j, color);
+				}
+
+			OutputPhoto.Background = outputBitmap.CreateImageBrush();
+		}
+
+		/// <summary>
+		/// Universal function to save image with a chosen extension.
+		/// </summary>
+		/// <param name="visual">Image to save</param>
+		/// <param name="fileName">Output file name</param>
+		/// <param name="encoder">Matching encoder</param>
+		void SaveToFile(FrameworkElement visual, string fileName, BitmapEncoder encoder)
+		{
+			RenderTargetBitmap bitmap = new RenderTargetBitmap((int)visual.ActualWidth, (int)visual.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+			bitmap.Render(visual);
+			BitmapFrame frame = BitmapFrame.Create(bitmap);
+			encoder.Frames.Add(frame);
+
+			using (var stream = File.Create(fileName))
+			{
+				encoder.Save(stream);
+			}
+		}
+	}
 }

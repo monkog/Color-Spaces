@@ -21,32 +21,6 @@ namespace ColorSpaces
 		}
 
 		/// <summary>
-		/// Reduces number of colors to kR * kG * kB.
-		/// </summary>
-		/// <param name="kR">Number of red intervals</param>
-		/// <param name="kG">Number of green intervals</param>
-		/// <param name="kB">Number of blue intervals</param>
-		/// <param name="color">Color to reduce.</param>
-		/// <param name="intervalR">Red interval span.</param>
-		/// <param name="intervalG">Green interval span.</param>
-		/// <param name="intervalB">Blue interval span.</param>
-		public static Color ReduceColor(this Color color, int kR, int kG, int kB, int intervalR, int intervalG, int intervalB)
-		{
-			var rI = color.R / intervalR;
-			var gI = color.G / intervalG;
-			var bI = color.B / intervalB;
-
-			if (rI == kR) rI--;
-			if (gI == kG) gI--;
-			if (bI == kB) bI--;
-
-			var r = ((rI + 0.5) * intervalR / 255).ToRgb();
-			var g = ((gI + 0.5) * intervalG / 255).ToRgb();
-			var b = ((bI + 0.5) * intervalB / 255).ToRgb();
-			return Color.FromArgb(color.A, r, g, b);
-		}
-
-		/// <summary>
 		/// Returns the provided color in CIE XYZ color space.
 		/// Uses gamma conversion to optimize the color.
 		/// </summary>
