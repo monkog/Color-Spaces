@@ -53,7 +53,7 @@ namespace ColorSpaces
                 BitmapImage bitmapImage = new BitmapImage(new Uri(fileName));
                 imageBrush.ImageSource = bitmapImage;
                 SourcePhoto.Background = imageBrush;
-                _sourceBitmap = createBitmapFromBitmapImage(bitmapImage);
+                _sourceBitmap = CreateBitmapFromBitmapImage(bitmapImage);
                 OutputPhoto.Background = _whiteSmokeBitmap;
             }
         }

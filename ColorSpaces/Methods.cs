@@ -33,7 +33,7 @@ namespace ColorSpaces
         /// </summary>
         /// <param name="bitmapImage">Provided BitmapImage</param>
         /// <returns>Bitmap from BitmapImage</returns>
-        private Bitmap createBitmapFromBitmapImage(BitmapImage bitmapImage)
+        private Bitmap CreateBitmapFromBitmapImage(BitmapImage bitmapImage)
         {
             using (MemoryStream outStream = new MemoryStream())
             {
@@ -51,16 +51,14 @@ namespace ColorSpaces
         /// </summary>
         /// <param name="n">R,G,B value in range [0,1]</param>
         /// <returns>R,G,B value in range [0,255]</returns>
-        private static double ToRgb(double n)
+        public static int ToRgb(double n)
         {
-            var result = 255.0 * n;
+            var result = (int)(255.0 * n);
 
-            if (result >= 0)
-                if (result <= 255)
-                    return result;
-                else
-                    return 255;
-            return 0;
+	        if (result <= 0) return 0;
+	        if (result >= 255) return 255;
+
+	        return result;
         }
 
         /// <summary>
@@ -171,7 +169,7 @@ namespace ColorSpaces
             g = Math.Pow(g, 1 / 2.2);
             b = Math.Pow(b, 1 / 2.2);
 
-            return Color.FromArgb(255, (int)ToRgb(r), (int)ToRgb(g), (int)ToRgb(b));
+            return Color.FromArgb(255, ToRgb(r), ToRgb(g), ToRgb(b));
         }
 
         /// <summary>
@@ -198,7 +196,7 @@ namespace ColorSpaces
             g = Math.Pow(g, 1 / 1.8);
             b = Math.Pow(b, 1 / 1.8);
 
-            return Color.FromArgb(255, (int)ToRgb(r), (int)ToRgb(g), (int)ToRgb(b));
+            return Color.FromArgb(255, ToRgb(r), ToRgb(g), ToRgb(b));
         }
 
         /// <summary>
@@ -219,7 +217,7 @@ namespace ColorSpaces
             g = Math.Pow(g, 1 / 1.2);
             b = Math.Pow(b, 1 / 1.2);
 
-            return Color.FromArgb(255, (int)ToRgb(r), (int)ToRgb(g), (int)ToRgb(b));
+            return Color.FromArgb(255, ToRgb(r), ToRgb(g), ToRgb(b));
         }
 
         /// <summary>
@@ -311,9 +309,9 @@ namespace ColorSpaces
                     if (gI == kG) gI--;
                     if (bI == kB) bI--;
 
-                    int r = (int)ToRgb((rI + 0.5) * intervalR / 255);
-                    int g = (int)ToRgb((gI + 0.5) * intervalG / 255);
-                    int b = (int)ToRgb((bI + 0.5) * intervalB / 255);
+                    int r = ToRgb((rI + 0.5) * intervalR / 255);
+                    int g = ToRgb((gI + 0.5) * intervalG / 255);
+                    int b = ToRgb((bI + 0.5) * intervalB / 255);
                     color = Color.FromArgb(255, r, g, b);
                     outputBitmap.SetPixel(i, j, color);
                 }

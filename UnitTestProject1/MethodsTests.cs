@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using ColorSpaces;
+using NUnit.Framework;
 
 namespace UnitTestProject1
 {
@@ -6,9 +7,15 @@ namespace UnitTestProject1
 	public class MethodsTests
 	{
 		[Test]
-		public void TestMethod1()
+		[TestCase(-0.1, 0)]
+		[TestCase(0, 0)]
+		[TestCase(0.2, 51)]
+		[TestCase(1, 255)]
+		[TestCase(2.5, 255)]
+		public void ToRgb_Parameter_Result(double parameter, int expectedResult)
 		{
-			Assert.True(true);
+			var result = MainWindow.ToRgb(parameter);
+			Assert.AreEqual(expectedResult, result);
 		}
 	}
 }

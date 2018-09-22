@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorSpaces", "ColorSpaces\ColorSpaces.csproj", "{979CEAC8-D9CD-45D4-91CC-737F06A8D1BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{498FE1F5-3E35-4FFE-9529-02C309223258}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorSpacesTests", "UnitTestProject1\ColorSpacesTests.csproj", "{498FE1F5-3E35-4FFE-9529-02C309223258}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
