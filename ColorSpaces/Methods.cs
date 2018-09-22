@@ -56,7 +56,7 @@ namespace ColorSpaces
             for (int i = 0; i < outputBitmap.Width; i++)
                 for (int j = 0; j < outputBitmap.Height; j++)
 				{
-					var color = _sourceBitmap.GetPixel(i, j).ToGreyscale();
+					var color = _sourceBitmap.GetPixel(i, j).ToGrayScale();
 					outputBitmap.SetPixel(i, j, color);
 				}
 
@@ -74,9 +74,8 @@ namespace ColorSpaces
             for (int i = 0; i < outputBitmap.Width; i++)
                 for (int j = 0; j < outputBitmap.Height; j++)
                 {
-                    Color color = _sourceBitmap.GetPixel(i, j);
-	                double[] xyz;
-	                GetXyz(color, out xyz);
+                    var color = _sourceBitmap.GetPixel(i, j);
+	                var xyz = color.ToCieXyz();
                     switch (colorSpace)
                     {
                         case "Adobe RGB":
@@ -93,40 +92,6 @@ namespace ColorSpaces
                 }
 
             OutputPhoto.Background = CreateImageBrushFromBitmap(outputBitmap);
-        }
-
-        /// <summary>
-        /// Returns the provided color in XYZ coordinates.
-        /// Uses gamma conversion to optimize the color.
-        /// </summary>
-        /// <param name="color">Provided color</param>
-        /// <param name="xyz">Output table with XYZ coordinates of the provided color</param>
-        void GetXyz(Color color, out double[] xyz)
-        {
-            // Gamma correction
-            //double r = (color.R / 255.0 > 0.04045 ? Math.Pow((color.R / 255.0 + 0.055) / 1.055, 2.4) : color.R / 255.0 / 12.92);
-            //double g = (color.G / 255.0 > 0.04045 ? Math.Pow((color.G / 255.0 + 0.055) / 1.055, 2.4) : color.G / 255.0 / 12.92);
-            //double b = (color.B / 255.0 > 0.04045 ? Math.Pow((color.B / 255.0 + 0.055) / 1.055, 2.4) : color.B / 255.0 / 12.92);
-            double r = Math.Pow(color.R / 255.0, 2.2);
-            double g = Math.Pow(color.G / 255.0, 2.2);
-            double b = Math.Pow(color.B / 255.0, 2.2);
-
-            // Basic matrix to calculate the coordinates with D65 white point.
-            // W won't use this matrix in this case.
-            // We could use this matrix with Adobe RGB or Apple RGB conversion 
-            // because white points match within these three spaces. 
-            // Although we can't use it with Wide Gamut conversion without another Bradford matrix.
-            // double X = r * 0.4124 + g * 0.3576 + b * 0.1805;
-            // double Y = r * 0.2126 + g * 0.7152 + b * 0.0722;
-            // double Z = r * 0.0193 + g * 0.1192 + b * 0.9505;
-
-            // Assuming that white point is D50.
-            // Uses the Bradford-adapted matrix.
-            double x = r * 0.4360747 + g * 0.3850649 + b * 0.1430804;
-            double y = r * 0.2225045 + g * 0.7168786 + b * 0.0606169;
-            double z = r * 0.0139322 + g * 0.0971045 + b * 0.7141733;
-
-            xyz = new [] { x, y, z };
         }
 
         /// <summary>
