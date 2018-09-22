@@ -75,7 +75,8 @@ namespace ColorSpaces
                 for (int j = 0; j < outputBitmap.Height; j++)
                 {
                     Color color = _sourceBitmap.GetPixel(i, j);
-	                GetXyz(color, out var xyz);
+	                double[] xyz;
+	                GetXyz(color, out xyz);
                     switch (colorSpace)
                     {
                         case "Adobe RGB":
