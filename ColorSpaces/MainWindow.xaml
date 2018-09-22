@@ -3,44 +3,86 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:colorSpaces="clr-namespace:ColorSpaces"
         Title="Color Spaces Demo" Height="640.933" Width="560.333" WindowState="Maximized">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="225*"/>
-            <ColumnDefinition Width="225*"/>
-            <ColumnDefinition Width="54*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FF838383" Offset="0"/>
-                <GradientStop Color="#FFCDCDCD" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
-        <Border Margin="10,10,10,20" BorderThickness="2" BorderBrush="Black" Background="LightGray" Grid.Column="0">
-            <Canvas Name="SourcePhoto" Margin="4,4,4,4" Background="WhiteSmoke"/>
-        </Border>
-        <Border Margin="10,10,10,20" BorderThickness="2" BorderBrush="Black" Background="LightGray" Grid.Column="1">
-            <Canvas Name="OutputPhoto" Margin="4,4,4,4" Background="WhiteSmoke"/>
-        </Border>
-        <Button Name="OpenButton" Content="Open file..." Grid.Column="2" Margin="0,29,10,0" VerticalAlignment="Top" Height="40" FontSize="16" Click="OpenButton_Click"/>
-        <Button Name="SaveButton" Content="Save as..." Grid.Column="2" Margin="0,74,10,0" VerticalAlignment="Top" Height="40" FontSize="16" Click="SaveButton_Click"/>
-        <Button Name="ConvertToGrayScaleButton" Grid.Column="2" Margin="0,119,10,0" VerticalAlignment="Top" Height="80" Click="ConvertToGrayScaleButton_Click">
-            <TextBlock Text="Convert to gray scale" FontSize="16" TextWrapping="Wrap" TextAlignment="Center"/>
-        </Button>
-		<Button Grid.Column="2" Margin="0,204,10,0" VerticalAlignment="Top" Height="80" Command="{Binding ConvertColorSpaceCommand}" CommandParameter="{x:Static colorSpaces:ColorSpace.AdobeRgb}">
-            <TextBlock Text="Convert to Adobe RGB" FontSize="16" TextWrapping="Wrap" TextAlignment="Center"/>
-        </Button>
-		<Button Grid.Column="2" Margin="0,289,10,0" VerticalAlignment="Top" Height="80" Command="{Binding ConvertColorSpaceCommand}" CommandParameter="{x:Static colorSpaces:ColorSpace.AppleRgb}">
-            <TextBlock Text="Convert to Apple RGB" FontSize="16" TextWrapping="Wrap" TextAlignment="Center"/>
-        </Button>
-		<Button Grid.Column="2" Margin="0,374,10,0" VerticalAlignment="Top" Height="80" Command="{Binding ConvertColorSpaceCommand}" CommandParameter="{x:Static colorSpaces:ColorSpace.WideGamut}">
-            <TextBlock Text="Convert to Wide Gamut"  FontSize="16" TextWrapping="Wrap" TextAlignment="Center"/>
-        </Button>
-        <Button Name="ReduceButton" Content="Reduce colors..." Grid.Column="2" Margin="0,459,10,0" VerticalAlignment="Top" Height="40" FontSize="16" Click="ReduceButton_Click"/>
-        <Label Content="R" Grid.Column="2" Margin="0,504,40,0" VerticalAlignment="Top"/>
-        <Label Content="G" Grid.Column="2" Margin="0,532,40,0" VerticalAlignment="Top"/>
-        <Label Content="B" Grid.Column="2" Margin="0,560,40,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="Kr" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="24,504,0,0" TextWrapping="Wrap" Text="4" VerticalAlignment="Top" Width="30"/>
-        <TextBox x:Name="Kg" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="24,532,0,0" TextWrapping="Wrap" Text="2" VerticalAlignment="Top" Width="30"/>
-        <TextBox x:Name="Kb" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="24,560,0,0" TextWrapping="Wrap" Text="4" VerticalAlignment="Top" Width="30"/>
-    </Grid>
+	<Window.Resources>
+		<Style TargetType="Button">
+			<Setter Property="Margin" Value="5"/>
+			<Setter Property="Height" Value="50"/>
+			<Setter Property="FontSize" Value="16"/>
+		</Style>
+		<Style TargetType="GridSplitter">
+			<Setter Property="Margin" Value="0, 5"/>
+		</Style>
+		<Style TargetType="TextBox">
+			<Setter Property="Margin" Value="5"/>
+			<Setter Property="Height" Value="30"/>
+			<Setter Property="FontSize" Value="16"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+		</Style>
+		<Style TargetType="Label">
+			<Setter Property="FontSize" Value="16"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+		</Style>
+	</Window.Resources>
+
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="225*"/>
+			<ColumnDefinition Width="225*"/>
+			<ColumnDefinition Width="54*"/>
+		</Grid.ColumnDefinitions>
+		<Grid.Background>
+			<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+				<GradientStop Color="#FF838383" Offset="0"/>
+				<GradientStop Color="#FFCDCDCD" Offset="1"/>
+			</LinearGradientBrush>
+		</Grid.Background>
+		<Border Margin="10,10,10,20" BorderThickness="2" BorderBrush="Black" Background="LightGray" Grid.Column="0">
+			<Canvas Name="SourcePhoto" Margin="4,4,4,4" Background="WhiteSmoke"/>
+		</Border>
+		<Border Margin="10,10,10,20" BorderThickness="2" BorderBrush="Black" Background="LightGray" Grid.Column="1">
+			<Canvas Name="OutputPhoto" Margin="4,4,4,4" Background="WhiteSmoke"/>
+		</Border>
+
+		<Grid Grid.Column="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+
+			<Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Content="Open file..." Click="OpenButton_Click"/>
+			<Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Content="Save as..." Click="SaveButton_Click"/>
+
+			<GridSplitter Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Width="Auto" Height="3" HorizontalAlignment="Stretch" IsEnabled="False"/>
+
+			<Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Click="ConvertToGrayScaleButton_Click" Content="Convert to gray scale"/>
+			<Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Command="{Binding ConvertColorSpaceCommand}" CommandParameter="{x:Static colorSpaces:ColorSpace.AdobeRgb}" Content="Convert to Adobe RGB"/>
+			<Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" Command="{Binding ConvertColorSpaceCommand}" CommandParameter="{x:Static colorSpaces:ColorSpace.AppleRgb}" Content="Convert to Apple RGB"/>
+			<Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" Command="{Binding ConvertColorSpaceCommand}" CommandParameter="{x:Static colorSpaces:ColorSpace.WideGamut}" Content="Convert to Wide Gamut"/>
+
+			<GridSplitter Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" Width="Auto" Height="3" HorizontalAlignment="Stretch" IsEnabled="False"/>
+
+			<Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="8" Content="Reduce colors..." Click="ReduceButton_Click"/>
+
+			<Label Grid.Column="0" Content="R" Grid.Row="9"/>
+			<Label Grid.Column="0" Content="G" Grid.Row="10"/>
+			<Label Grid.Column="0" Content="B" Grid.Row="11"/>
+			<TextBox Grid.Column="1" x:Name="Kr" Grid.Row="9" TextWrapping="Wrap" Text="4"/>
+			<TextBox Grid.Column="1" x:Name="Kg" Grid.Row="10" TextWrapping="Wrap" Text="2"/>
+			<TextBox Grid.Column="1" x:Name="Kb" Grid.Row="11" TextWrapping="Wrap" Text="4"/>
+		</Grid>
+	</Grid>
 </Window>

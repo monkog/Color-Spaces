@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Windows;
@@ -7,10 +8,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ColorSpaces.Helpers;
 using ColorSpaces.ImageConverters;
+using Microsoft.Win32;
 using Color = System.Drawing.Color;
 
 namespace ColorSpaces
 {
+	[ExcludeFromCodeCoverage]
 	public partial class MainWindow : Window
 	{
 		Bitmap _sourceBitmap;
@@ -30,7 +33,7 @@ namespace ColorSpaces
 
 		private void OpenButton_Click(object sender, RoutedEventArgs e)
 		{
-			Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog
+			var openFileDialog = new OpenFileDialog
 			{
 				Filter = "all image files(*.bmp; *.gif; *.jpeg; *.jpg; *.png)|*.bmp;*.gif; *.jpeg; *.jpg; *.png"
 						 + "|BMP Files (*.bmp)|*.bmp|GIF Files (*.gif)|*.gif|JPEG Files (*.jpeg)|*.jpeg|JPG Files (*.jpg)|*.jpg|PNG Files (*.png)|*.png"
@@ -55,7 +58,7 @@ namespace ColorSpaces
 			if (_sourceBitmap == null || OutputPhoto.Background == _whiteSmokeBitmap)
 				return;
 
-			var saveFileDialog = new Microsoft.Win32.SaveFileDialog
+			var saveFileDialog = new SaveFileDialog
 			{
 				Filter =
 					"BMP Files (*.bmp)|*.bmp|GIF Files (*.gif)|*.gif|JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png"
@@ -122,9 +125,9 @@ namespace ColorSpaces
 		
 		private void SaveToFile(FrameworkElement visual, string fileName, BitmapEncoder encoder)
 		{
-			RenderTargetBitmap bitmap = new RenderTargetBitmap((int)visual.ActualWidth, (int)visual.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+			var bitmap = new RenderTargetBitmap((int)visual.ActualWidth, (int)visual.ActualHeight, 96, 96, PixelFormats.Pbgra32);
 			bitmap.Render(visual);
-			BitmapFrame frame = BitmapFrame.Create(bitmap);
+			var frame = BitmapFrame.Create(bitmap);
 			encoder.Frames.Add(frame);
 
 			using (var stream = File.Create(fileName))
