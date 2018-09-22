@@ -40,3 +40,4 @@ obj/
 Debug/
 .vs/
 *.suo
+packages/
