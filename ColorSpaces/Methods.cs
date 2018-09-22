@@ -10,24 +10,6 @@ namespace ColorSpaces
 {
 	public partial class MainWindow
     {
-
-        /// <summary>
-        /// Converts image to gray-scale using average algorithm.
-        /// </summary>
-        void ConvertToGrayScale()
-        {
-            Bitmap outputBitmap = new Bitmap(_sourceBitmap.Width, _sourceBitmap.Height);
-
-            for (int i = 0; i < outputBitmap.Width; i++)
-                for (int j = 0; j < outputBitmap.Height; j++)
-				{
-					var color = _sourceBitmap.GetPixel(i, j).ToGrayScale();
-					outputBitmap.SetPixel(i, j, color);
-				}
-
-			OutputPhoto.Background = outputBitmap.CreateImageBrush();
-        }
-
 		/// <summary>
 		/// Converts color space of an image to the chosen color space.
 		/// </summary>

@@ -66,6 +66,7 @@
     <Compile Include="Helpers\BitmapExtensions.cs" />
     <Compile Include="ColorSpace.cs" />
     <Compile Include="ColorUtils.cs" />
+    <Compile Include="ImageConverters\GrayScaleConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

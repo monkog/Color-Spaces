@@ -20,21 +20,21 @@
         <Border Margin="10,10,10,20" BorderThickness="2" BorderBrush="Black" Background="LightGray" Grid.Column="1">
             <Canvas Name="OutputPhoto" Margin="4,4,4,4" Background="WhiteSmoke"/>
         </Border>
-        <Button Name="OpenButton" Content="Open file..." Grid.Column="2" Margin="0,29,10,0" VerticalAlignment="Top" Height="40" FontSize="16" Click="_openButton_Click"/>
-        <Button Name="SaveButton" Content="Save as..." Grid.Column="2" Margin="0,74,10,0" VerticalAlignment="Top" Height="40" FontSize="16" Click="m_saveButton_Click"/>
-        <Button Name="ConvertToGrayScaleButton" Grid.Column="2" Margin="0,119,10,0" VerticalAlignment="Top" Height="80" Click="_convertToGrayScaleButton_Click">
+        <Button Name="OpenButton" Content="Open file..." Grid.Column="2" Margin="0,29,10,0" VerticalAlignment="Top" Height="40" FontSize="16" Click="OpenButton_Click"/>
+        <Button Name="SaveButton" Content="Save as..." Grid.Column="2" Margin="0,74,10,0" VerticalAlignment="Top" Height="40" FontSize="16" Click="SaveButton_Click"/>
+        <Button Name="ConvertToGrayScaleButton" Grid.Column="2" Margin="0,119,10,0" VerticalAlignment="Top" Height="80" Click="ConvertToGrayScaleButton_Click">
             <TextBlock Text="Convert to gray scale" FontSize="16" TextWrapping="Wrap" TextAlignment="Center"/>
         </Button> 
-        <Button Name="ConvertToAdobeButton" Grid.Column="2" Margin="0,204,10,0" VerticalAlignment="Top" Height="80" Click="_convertToAdobeButton_Click">
+        <Button Name="ConvertToAdobeButton" Grid.Column="2" Margin="0,204,10,0" VerticalAlignment="Top" Height="80" Click="ConvertToAdobeButton_Click">
             <TextBlock Text="Convert to Adobe RGB" FontSize="16" TextWrapping="Wrap" TextAlignment="Center"/>
         </Button>
-        <Button Name="ConvertToAppleButton" Grid.Column="2" Margin="0,289,10,0" VerticalAlignment="Top" Height="80" Click="_convertToAppleButton_Click">
+        <Button Name="ConvertToAppleButton" Grid.Column="2" Margin="0,289,10,0" VerticalAlignment="Top" Height="80" Click="ConvertToAppleButton_Click">
             <TextBlock Text="Convert to Apple RGB" FontSize="16" TextWrapping="Wrap" TextAlignment="Center"/>
         </Button>
-        <Button Name="ConvertToWideGamutButton" Grid.Column="2" Margin="0,374,10,0" VerticalAlignment="Top" Height="80" Click="_convertToWideGamutButton_Click">
+        <Button Name="ConvertToWideGamutButton" Grid.Column="2" Margin="0,374,10,0" VerticalAlignment="Top" Height="80" Click="ConvertToWideGamutButton_Click">
             <TextBlock Text="Convert to Wide Gamut"  FontSize="16" TextWrapping="Wrap" TextAlignment="Center"/>
         </Button>
-        <Button Name="ReduceButton" Content="Reduce colors..." Grid.Column="2" Margin="0,459,10,0" VerticalAlignment="Top" Height="40" FontSize="16" Click="_reduceButton_Click"/>
+        <Button Name="ReduceButton" Content="Reduce colors..." Grid.Column="2" Margin="0,459,10,0" VerticalAlignment="Top" Height="40" FontSize="16" Click="ReduceButton_Click"/>
         <Label Content="R" Grid.Column="2" Margin="0,504,40,0" VerticalAlignment="Top"/>
         <Label Content="G" Grid.Column="2" Margin="0,532,40,0" VerticalAlignment="Top"/>
         <Label Content="B" Grid.Column="2" Margin="0,560,40,0" VerticalAlignment="Top"/>

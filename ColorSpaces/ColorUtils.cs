@@ -21,18 +21,6 @@ namespace ColorSpaces
 		}
 
 		/// <summary>
-		/// Converts the provided color to the gray scale.
-		/// </summary>
-		/// <param name="color">Color to convert</param>
-		/// <returns>Gray scale representation.</returns>
-		public static Color ToGrayScale(this Color color)
-		{
-			var gray = (int)(0.3 * color.R + 0.59 * color.G + 0.11 * color.B);
-			color = Color.FromArgb(color.A, gray, gray, gray);
-			return color;
-		}
-
-		/// <summary>
 		/// Reduces number of colors to kR * kG * kB.
 		/// </summary>
 		/// <param name="kR">Number of red intervals</param>

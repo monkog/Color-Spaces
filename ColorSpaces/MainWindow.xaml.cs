@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ColorSpaces.Helpers;
+using ColorSpaces.ImageConverters;
 using Color = System.Drawing.Color;
 
 namespace ColorSpaces
@@ -32,7 +33,7 @@ namespace ColorSpaces
             _whiteSmokeBitmap = grayBitmap.CreateImageBrush();
         }
 
-        private void _openButton_Click(object sender, RoutedEventArgs e)
+        private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
             // Create OpenFileDialog 
 	        Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog
@@ -59,7 +60,7 @@ namespace ColorSpaces
             }
         }
 
-        private void m_saveButton_Click(object sender, RoutedEventArgs e)
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             if (_sourceBitmap == null || OutputPhoto.Background == _whiteSmokeBitmap)
                 return;
@@ -99,31 +100,31 @@ namespace ColorSpaces
             }
         }
 
-        private void _convertToGrayScaleButton_Click(object sender, RoutedEventArgs e)
+        private void ConvertToGrayScaleButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_sourceBitmap != null)
-                ConvertToGrayScale();
+	        if (_sourceBitmap == null) return;
+	        OutputPhoto.Background = _sourceBitmap.ToGrayScale();
         }
 
-        private void _convertToAdobeButton_Click(object sender, RoutedEventArgs e)
+        private void ConvertToAdobeButton_Click(object sender, RoutedEventArgs e)
         {
             if (_sourceBitmap != null)
                 ConvertToColorSpace(ColorSpace.AdobeRgb);
         }
 
-        private void _convertToAppleButton_Click(object sender, RoutedEventArgs e)
+        private void ConvertToAppleButton_Click(object sender, RoutedEventArgs e)
         {
             if (_sourceBitmap != null)
                 ConvertToColorSpace(ColorSpace.AppleRgb);
         }
 
-        private void _convertToWideGamutButton_Click(object sender, RoutedEventArgs e)
+        private void ConvertToWideGamutButton_Click(object sender, RoutedEventArgs e)
         {
             if (_sourceBitmap != null)
                 ConvertToColorSpace(ColorSpace.WideGamut);
         }
 
-        private void _reduceButton_Click(object sender, RoutedEventArgs e)
+        private void ReduceButton_Click(object sender, RoutedEventArgs e)
         {
             if (_sourceBitmap != null)
                 ReduceColors(int.Parse(Kr.Text), int.Parse(Kg.Text), int.Parse(Kb.Text));
