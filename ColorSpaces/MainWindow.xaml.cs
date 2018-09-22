@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using ColorSpaces.Helpers;
 using Color = System.Drawing.Color;
 
 namespace ColorSpaces
@@ -28,7 +29,7 @@ namespace ColorSpaces
             _sourceBitmap = null;
             var grayBitmap = new Bitmap(1, 1);
             grayBitmap.SetPixel(0, 0, Color.WhiteSmoke);
-            _whiteSmokeBitmap = CreateImageBrushFromBitmap(grayBitmap);
+            _whiteSmokeBitmap = grayBitmap.CreateImageBrush();
         }
 
         private void _openButton_Click(object sender, RoutedEventArgs e)
@@ -53,7 +54,7 @@ namespace ColorSpaces
                 BitmapImage bitmapImage = new BitmapImage(new Uri(fileName));
                 imageBrush.ImageSource = bitmapImage;
                 SourcePhoto.Background = imageBrush;
-                _sourceBitmap = CreateBitmapFromBitmapImage(bitmapImage);
+                _sourceBitmap = bitmapImage.CreateBitmap();
                 OutputPhoto.Background = _whiteSmokeBitmap;
             }
         }
@@ -63,7 +64,7 @@ namespace ColorSpaces
             if (_sourceBitmap == null || OutputPhoto.Background == _whiteSmokeBitmap)
                 return;
 
-	        Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog
+	        var saveFileDialog = new Microsoft.Win32.SaveFileDialog
 	        {
 		        Filter =
 			        "BMP Files (*.bmp)|*.bmp|GIF Files (*.gif)|*.gif|JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png"
@@ -74,22 +75,27 @@ namespace ColorSpaces
             {
                 string fileName = saveFileDialog.FileName;
                 string extension = Path.GetExtension(fileName);
+	            BitmapEncoder encoder;
 
                 switch (extension)
                 {
                     case ".bmp":
-                        SaveToBmp(OutputPhoto, fileName);
-                        break;
+	                    encoder = new BmpBitmapEncoder();
+						break;
                     case ".gif":
-                        SaveToGif(OutputPhoto, fileName);
-                        break;
+	                    encoder = new GifBitmapEncoder();
+						break;
                     case ".jpeg":
-                        SaveToJpeg(OutputPhoto, fileName);
+	                    encoder = new JpegBitmapEncoder();
                         break;
                     case ".png":
-                        SaveToPng(OutputPhoto, fileName);
-                        break;
+	                    encoder = new PngBitmapEncoder();
+						break;
+					default:
+						throw new NotSupportedException($"{extension} is not supported.");
                 }
+
+	            SaveToFile(OutputPhoto, fileName, encoder);
             }
         }
 
@@ -102,19 +108,19 @@ namespace ColorSpaces
         private void _convertToAdobeButton_Click(object sender, RoutedEventArgs e)
         {
             if (_sourceBitmap != null)
-                ConvertToColorSpace("Adobe RGB");
+                ConvertToColorSpace(ColorSpace.AdobeRgb);
         }
 
         private void _convertToAppleButton_Click(object sender, RoutedEventArgs e)
         {
             if (_sourceBitmap != null)
-                ConvertToColorSpace("Apple RGB");
+                ConvertToColorSpace(ColorSpace.AppleRgb);
         }
 
         private void _convertToWideGamutButton_Click(object sender, RoutedEventArgs e)
         {
             if (_sourceBitmap != null)
-                ConvertToColorSpace("Wide Gamut");
+                ConvertToColorSpace(ColorSpace.WideGamut);
         }
 
         private void _reduceButton_Click(object sender, RoutedEventArgs e)
