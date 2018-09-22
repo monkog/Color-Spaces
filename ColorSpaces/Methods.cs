@@ -55,21 +55,19 @@ namespace ColorSpaces
 
             for (int i = 0; i < outputBitmap.Width; i++)
                 for (int j = 0; j < outputBitmap.Height; j++)
-                {
-                    Color color = _sourceBitmap.GetPixel(i, j);
-                    int grayColor = (int)(0.3 * color.R + 0.59 * color.G + 0.11 * color.B);
-                    color = Color.FromArgb(color.A, grayColor, grayColor, grayColor);
-                    outputBitmap.SetPixel(i, j, color);
-                }
+				{
+					var color = _sourceBitmap.GetPixel(i, j).ToGreyscale();
+					outputBitmap.SetPixel(i, j, color);
+				}
 
-            OutputPhoto.Background = CreateImageBrushFromBitmap(outputBitmap);
+			OutputPhoto.Background = CreateImageBrushFromBitmap(outputBitmap);
         }
 
-        /// <summary>
-        /// Converts color space of an image to the chosen color space.
-        /// </summary>
-        /// <param name="colorSpace">The chosen color space</param>
-        void ConvertToColorSpace(string colorSpace)
+		/// <summary>
+		/// Converts color space of an image to the chosen color space.
+		/// </summary>
+		/// <param name="colorSpace">The chosen color space</param>
+		void ConvertToColorSpace(string colorSpace)
         {
             Bitmap outputBitmap = new Bitmap(_sourceBitmap.Width, _sourceBitmap.Height);
 

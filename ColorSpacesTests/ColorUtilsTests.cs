@@ -1,10 +1,11 @@
-﻿using ColorSpaces;
+﻿using System.Drawing;
+using ColorSpaces;
 using NUnit.Framework;
 
-namespace UnitTestProject1
+namespace ColorSpacesTests
 {
 	[TestFixture]
-	public class MethodsTests
+	public class ColorUtilsTests
 	{
 		[Test]
 		[TestCase(-0.1, 0)]

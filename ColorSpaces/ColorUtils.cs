@@ -1,4 +1,6 @@
-﻿namespace ColorSpaces
+﻿using System.Drawing;
+
+namespace ColorSpaces
 {
 	public static class ColorUtils
 	{
@@ -15,6 +17,18 @@
 			if (result >= 255) return 255;
 
 			return result;
+		}
+
+		/// <summary>
+		/// Converts the provided color to the greyscale.
+		/// </summary>
+		/// <param name="color">Color to convert</param>
+		/// <returns>Greyscale representation.</returns>
+		public static Color ToGreyscale(this Color color)
+		{
+			var gray = (int)(0.3 * color.R + 0.59 * color.G + 0.11 * color.B);
+			color = Color.FromArgb(color.A, gray, gray, gray);
+			return color;
 		}
 	}
 }
