@@ -1,17 +1,15 @@
 ﻿using System.Reflection;
-using System.Resources;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PrzestrzenieKolorow")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("ColorSpaces")]
+[assembly: AssemblyDescription("This demo converts the color space of a picture. It also gives a possibility to convert to grayscale and reduce colors.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PrzestrzenieKolorow")]
+[assembly: AssemblyCompany("Monika Kogut")]
+[assembly: AssemblyProduct("ColorSpaces")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

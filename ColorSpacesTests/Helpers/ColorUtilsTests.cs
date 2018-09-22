@@ -1,8 +1,7 @@
-﻿using System.Drawing;
-using ColorSpaces;
+﻿using ColorSpaces.Helpers;
 using NUnit.Framework;
 
-namespace ColorSpacesTests
+namespace ColorSpacesTests.Helpers
 {
 	[TestFixture]
 	public class ColorUtilsTests

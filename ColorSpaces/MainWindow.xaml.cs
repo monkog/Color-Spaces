@@ -10,15 +10,6 @@ using Color = System.Drawing.Color;
 
 namespace ColorSpaces
 {
-	/// <summary>
-	/// Author: Monika Kogut
-	/// This demo converts the color space of a picture.
-	/// Most of the information was provided from the articles:
-	/// http://www.babelcolor.com/download/A%20comparison%20of%20four%20multimedia%20RGB%20spaces.pdf
-	/// http://www.babelcolor.com/download/A%20review%20of%20RGB%20color%20spaces.pdf
-	/// and the site:
-	/// http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
-	/// </summary>
 	public partial class MainWindow : Window
     {
         Bitmap _sourceBitmap;
@@ -35,19 +26,14 @@ namespace ColorSpaces
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
-            // Create OpenFileDialog 
 	        Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog
 	        {
 		        Filter = "all image files(*.bmp; *.gif; *.jpeg; *.jpg; *.png)|*.bmp;*.gif; *.jpeg; *.jpg; *.png"
 		                 + "|BMP Files (*.bmp)|*.bmp|GIF Files (*.gif)|*.gif|JPEG Files (*.jpeg)|*.jpeg|JPG Files (*.jpg)|*.jpg|PNG Files (*.png)|*.png"
 	        };
 
-	        // Set filter for file extension and default file extension 
-
-	        // Display OpenFileDialog by calling ShowDialog method 
 			bool? result = openFileDialog.ShowDialog();
 
-            // Get the selected file name and display in a TextBox 
             if (result == true)
             {
                 string fileName = openFileDialog.FileName;
@@ -129,6 +115,7 @@ namespace ColorSpaces
 	        if (_sourceBitmap == null) return;
 	        OutputPhoto.Background = _sourceBitmap.ReduceColors(int.Parse(Kr.Text), int.Parse(Kg.Text), int.Parse(Kb.Text));
 		}
+
 		/// <summary>
 		/// Converts color space of an image to the chosen color space.
 		/// </summary>

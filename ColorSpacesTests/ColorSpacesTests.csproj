@@ -50,7 +50,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColorUtilsTests.cs" />
+    <Compile Include="Helpers\ColorUtilsTests.cs" />
     <Compile Include="ImageConverters\GrayScaleConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

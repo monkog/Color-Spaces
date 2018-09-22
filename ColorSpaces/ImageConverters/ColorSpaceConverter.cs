@@ -1,25 +1,11 @@
 ﻿using System;
 using System.Drawing;
+using ColorSpaces.Helpers;
 
-namespace ColorSpaces
+namespace ColorSpaces.ImageConverters
 {
-	public static class ColorUtils
+	public static class ColorSpaceConverter
 	{
-		/// <summary>
-		/// Returns R,G and B values in range [0,255].
-		/// </summary>
-		/// <param name="n">R,G,B value in range [0,1]</param>
-		/// <returns>R,G,B value in range [0,255]</returns>
-		public static int ToRgb(this double n)
-		{
-			var result = (int)(255.0 * n);
-
-			if (result <= 0) return 0;
-			if (result >= 255) return 255;
-
-			return result;
-		}
-
 		/// <summary>
 		/// Returns the provided color in CIE XYZ color space.
 		/// Uses gamma conversion to optimize the color.

@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using System.Windows.Media;
 using ColorSpaces.Helpers;
 using Color = System.Drawing.Color;
@@ -14,6 +15,8 @@ namespace ColorSpaces.ImageConverters
 		/// <param name="kR">Number of red intervals</param>
 		/// <param name="kG">Number of green intervals</param>
 		/// <param name="kB">Number of blue intervals</param>
+		/// <returns>Image brush with reduced colors.</returns>
+		[ExcludeFromCodeCoverage]
 		public static ImageBrush ReduceColors(this Bitmap source, int kR, int kG, int kB)
 		{
 			var intervalR = 255 / kR;
@@ -34,15 +37,16 @@ namespace ColorSpaces.ImageConverters
 		}
 
 		/// <summary>
-		/// Reduces number of colors to kR * kG * kB.
+		/// Finds a corresponding color in the reduced range.
 		/// </summary>
-		/// <param name="kR">Number of red intervals</param>
-		/// <param name="kG">Number of green intervals</param>
-		/// <param name="kB">Number of blue intervals</param>
+		/// <param name="kR">Number of red intervals.</param>
+		/// <param name="kG">Number of green intervals.</param>
+		/// <param name="kB">Number of blue intervals.</param>
 		/// <param name="color">Color to reduce.</param>
 		/// <param name="intervalR">Red interval span.</param>
 		/// <param name="intervalG">Green interval span.</param>
 		/// <param name="intervalB">Blue interval span.</param>
+		/// <returns>Reduced color.</returns>
 		public static Color ReduceColor(this Color color, int kR, int kG, int kB, int intervalR, int intervalG, int intervalB)
 		{
 			var rI = color.R / intervalR;
