@@ -19,29 +19,31 @@ namespace ColorSpaces
 	/// </summary>
 	public partial class MainWindow : Window
     {
-        Bitmap m_sourceBitmap;
-        ImageBrush m_whiteSmokeBitmap;
+        Bitmap _sourceBitmap;
+	    readonly ImageBrush _whiteSmokeBitmap;
 
         public MainWindow()
         {
             InitializeComponent();
-            m_sourceBitmap = null;
-            Bitmap grayBitmap = new Bitmap(1, 1);
+            _sourceBitmap = null;
+            var grayBitmap = new Bitmap(1, 1);
             grayBitmap.SetPixel(0, 0, Color.WhiteSmoke);
-            m_whiteSmokeBitmap = createImageBrushFromBitmap(grayBitmap);
+            _whiteSmokeBitmap = CreateImageBrushFromBitmap(grayBitmap);
         }
 
-        private void m_openButton_Click(object sender, RoutedEventArgs e)
+        private void _openButton_Click(object sender, RoutedEventArgs e)
         {
             // Create OpenFileDialog 
-            Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
+	        Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog
+	        {
+		        Filter = "all image files(*.bmp; *.gif; *.jpeg; *.jpg; *.png)|*.bmp;*.gif; *.jpeg; *.jpg; *.png"
+		                 + "|BMP Files (*.bmp)|*.bmp|GIF Files (*.gif)|*.gif|JPEG Files (*.jpeg)|*.jpeg|JPG Files (*.jpg)|*.jpg|PNG Files (*.png)|*.png"
+	        };
 
-            // Set filter for file extension and default file extension 
-            openFileDialog.Filter = "all image files(*.bmp; *.gif; *.jpeg; *.jpg; *.png)|*.bmp;*.gif; *.jpeg; *.jpg; *.png"
-                + "|BMP Files (*.bmp)|*.bmp|GIF Files (*.gif)|*.gif|JPEG Files (*.jpeg)|*.jpeg|JPG Files (*.jpg)|*.jpg|PNG Files (*.png)|*.png";
+	        // Set filter for file extension and default file extension 
 
-            // Display OpenFileDialog by calling ShowDialog method 
-            Nullable<bool> result = openFileDialog.ShowDialog();
+	        // Display OpenFileDialog by calling ShowDialog method 
+			bool? result = openFileDialog.ShowDialog();
 
             // Get the selected file name and display in a TextBox 
             if (result == true)
@@ -50,20 +52,23 @@ namespace ColorSpaces
                 ImageBrush imageBrush = new ImageBrush();
                 BitmapImage bitmapImage = new BitmapImage(new Uri(fileName));
                 imageBrush.ImageSource = bitmapImage;
-                m_sourcePhoto.Background = imageBrush;
-                m_sourceBitmap = createBitmapFromBitmapImage(bitmapImage);
-                m_outputPhoto.Background = m_whiteSmokeBitmap;
+                SourcePhoto.Background = imageBrush;
+                _sourceBitmap = createBitmapFromBitmapImage(bitmapImage);
+                OutputPhoto.Background = _whiteSmokeBitmap;
             }
         }
 
         private void m_saveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (m_sourceBitmap == null || m_outputPhoto.Background == m_whiteSmokeBitmap)
+            if (_sourceBitmap == null || OutputPhoto.Background == _whiteSmokeBitmap)
                 return;
 
-            Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
-            saveFileDialog.Filter = "BMP Files (*.bmp)|*.bmp|GIF Files (*.gif)|*.gif|JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png";
-            Nullable<bool> result = saveFileDialog.ShowDialog();
+	        Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog
+	        {
+		        Filter =
+			        "BMP Files (*.bmp)|*.bmp|GIF Files (*.gif)|*.gif|JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png"
+	        };
+	        bool? result = saveFileDialog.ShowDialog();
 
             if (result == true)
             {
@@ -73,49 +78,49 @@ namespace ColorSpaces
                 switch (extension)
                 {
                     case ".bmp":
-                        saveToBmp(m_outputPhoto, fileName);
+                        SaveToBmp(OutputPhoto, fileName);
                         break;
                     case ".gif":
-                        saveToGif(m_outputPhoto, fileName);
+                        SaveToGif(OutputPhoto, fileName);
                         break;
                     case ".jpeg":
-                        saveToJpeg(m_outputPhoto, fileName);
+                        SaveToJpeg(OutputPhoto, fileName);
                         break;
                     case ".png":
-                        saveToPng(m_outputPhoto, fileName);
+                        SaveToPng(OutputPhoto, fileName);
                         break;
                 }
             }
         }
 
-        private void m_convertToGrayScaleButton_Click(object sender, RoutedEventArgs e)
+        private void _convertToGrayScaleButton_Click(object sender, RoutedEventArgs e)
         {
-            if (m_sourceBitmap != null)
-                convertToGrayScale();
+            if (_sourceBitmap != null)
+                ConvertToGrayScale();
         }
 
-        private void m_convertToAdobeButton_Click(object sender, RoutedEventArgs e)
+        private void _convertToAdobeButton_Click(object sender, RoutedEventArgs e)
         {
-            if (m_sourceBitmap != null)
-                convertToColorSpace("Adobe RGB");
+            if (_sourceBitmap != null)
+                ConvertToColorSpace("Adobe RGB");
         }
 
-        private void m_convertToAppleButton_Click(object sender, RoutedEventArgs e)
+        private void _convertToAppleButton_Click(object sender, RoutedEventArgs e)
         {
-            if (m_sourceBitmap != null)
-                convertToColorSpace("Apple RGB");
+            if (_sourceBitmap != null)
+                ConvertToColorSpace("Apple RGB");
         }
 
-        private void m_convertToWideGamutButton_Click(object sender, RoutedEventArgs e)
+        private void _convertToWideGamutButton_Click(object sender, RoutedEventArgs e)
         {
-            if (m_sourceBitmap != null)
-                convertToColorSpace("Wide Gamut");
+            if (_sourceBitmap != null)
+                ConvertToColorSpace("Wide Gamut");
         }
 
-        private void m_reduceButton_Click(object sender, RoutedEventArgs e)
+        private void _reduceButton_Click(object sender, RoutedEventArgs e)
         {
-            if (m_sourceBitmap != null)
-                reduceColors(Int32.Parse(m_kr.Text), Int32.Parse(m_kg.Text), Int32.Parse(m_kb.Text));
+            if (_sourceBitmap != null)
+                ReduceColors(int.Parse(Kr.Text), int.Parse(Kg.Text), int.Parse(Kb.Text));
         }
     }
 }

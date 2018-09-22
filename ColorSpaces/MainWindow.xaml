@@ -15,31 +15,31 @@
             </LinearGradientBrush>
         </Grid.Background>
         <Border Margin="10,10,10,20" BorderThickness="2" BorderBrush="Black" Background="LightGray" Grid.Column="0">
-            <Canvas Name="m_sourcePhoto" Margin="4,4,4,4" Background="WhiteSmoke"/>
+            <Canvas Name="SourcePhoto" Margin="4,4,4,4" Background="WhiteSmoke"/>
         </Border>
         <Border Margin="10,10,10,20" BorderThickness="2" BorderBrush="Black" Background="LightGray" Grid.Column="1">
-            <Canvas Name="m_outputPhoto" Margin="4,4,4,4" Background="WhiteSmoke"/>
+            <Canvas Name="OutputPhoto" Margin="4,4,4,4" Background="WhiteSmoke"/>
         </Border>
-        <Button Name="m_openButton" Content="Open file..." Grid.Column="2" Margin="0,29,10,0" VerticalAlignment="Top" Height="40" FontSize="16" Click="m_openButton_Click"/>
-        <Button Name="m_saveButton" Content="Save as..." Grid.Column="2" Margin="0,74,10,0" VerticalAlignment="Top" Height="40" FontSize="16" Click="m_saveButton_Click"/>
-        <Button Name="m_convertToGrayScaleButton" Grid.Column="2" Margin="0,119,10,0" VerticalAlignment="Top" Height="80" Click="m_convertToGrayScaleButton_Click">
+        <Button Name="OpenButton" Content="Open file..." Grid.Column="2" Margin="0,29,10,0" VerticalAlignment="Top" Height="40" FontSize="16" Click="_openButton_Click"/>
+        <Button Name="SaveButton" Content="Save as..." Grid.Column="2" Margin="0,74,10,0" VerticalAlignment="Top" Height="40" FontSize="16" Click="m_saveButton_Click"/>
+        <Button Name="ConvertToGrayScaleButton" Grid.Column="2" Margin="0,119,10,0" VerticalAlignment="Top" Height="80" Click="_convertToGrayScaleButton_Click">
             <TextBlock Text="Convert to gray scale" FontSize="16" TextWrapping="Wrap" TextAlignment="Center"/>
         </Button> 
-        <Button Name="m_convertToAdobeButton" Grid.Column="2" Margin="0,204,10,0" VerticalAlignment="Top" Height="80" Click="m_convertToAdobeButton_Click">
+        <Button Name="ConvertToAdobeButton" Grid.Column="2" Margin="0,204,10,0" VerticalAlignment="Top" Height="80" Click="_convertToAdobeButton_Click">
             <TextBlock Text="Convert to Adobe RGB" FontSize="16" TextWrapping="Wrap" TextAlignment="Center"/>
         </Button>
-        <Button Name="m_convertToAppleButton" Grid.Column="2" Margin="0,289,10,0" VerticalAlignment="Top" Height="80" Click="m_convertToAppleButton_Click">
+        <Button Name="ConvertToAppleButton" Grid.Column="2" Margin="0,289,10,0" VerticalAlignment="Top" Height="80" Click="_convertToAppleButton_Click">
             <TextBlock Text="Convert to Apple RGB" FontSize="16" TextWrapping="Wrap" TextAlignment="Center"/>
         </Button>
-        <Button Name="m_convertToWideGamutButton" Grid.Column="2" Margin="0,374,10,0" VerticalAlignment="Top" Height="80" Click="m_convertToWideGamutButton_Click">
+        <Button Name="ConvertToWideGamutButton" Grid.Column="2" Margin="0,374,10,0" VerticalAlignment="Top" Height="80" Click="_convertToWideGamutButton_Click">
             <TextBlock Text="Convert to Wide Gamut"  FontSize="16" TextWrapping="Wrap" TextAlignment="Center"/>
         </Button>
-        <Button Name="m_reduceButton" Content="Reduce colors..." Grid.Column="2" Margin="0,459,10,0" VerticalAlignment="Top" Height="40" FontSize="16" Click="m_reduceButton_Click"/>
+        <Button Name="ReduceButton" Content="Reduce colors..." Grid.Column="2" Margin="0,459,10,0" VerticalAlignment="Top" Height="40" FontSize="16" Click="_reduceButton_Click"/>
         <Label Content="R" Grid.Column="2" Margin="0,504,40,0" VerticalAlignment="Top"/>
         <Label Content="G" Grid.Column="2" Margin="0,532,40,0" VerticalAlignment="Top"/>
         <Label Content="B" Grid.Column="2" Margin="0,560,40,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="m_kr" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="24,504,0,0" TextWrapping="Wrap" Text="4" VerticalAlignment="Top" Width="30"/>
-        <TextBox x:Name="m_kg" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="24,532,0,0" TextWrapping="Wrap" Text="2" VerticalAlignment="Top" Width="30"/>
-        <TextBox x:Name="m_kb" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="24,560,0,0" TextWrapping="Wrap" Text="4" VerticalAlignment="Top" Width="30"/>
+        <TextBox x:Name="Kr" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="24,504,0,0" TextWrapping="Wrap" Text="4" VerticalAlignment="Top" Width="30"/>
+        <TextBox x:Name="Kg" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="24,532,0,0" TextWrapping="Wrap" Text="2" VerticalAlignment="Top" Width="30"/>
+        <TextBox x:Name="Kb" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="24,560,0,0" TextWrapping="Wrap" Text="4" VerticalAlignment="Top" Width="30"/>
     </Grid>
 </Window>

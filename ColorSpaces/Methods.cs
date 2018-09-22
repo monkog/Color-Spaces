@@ -17,7 +17,7 @@ namespace ColorSpaces
         /// </summary>
         /// <param name="bitmap">Provided Bitmap</param>
         /// <returns>Converted BitmapImage</returns>
-        private static ImageBrush createImageBrushFromBitmap(Bitmap bitmap)
+        private static ImageBrush CreateImageBrushFromBitmap(Bitmap bitmap)
         {
             BitmapSource bitmapSource = Imaging.CreateBitmapSourceFromHBitmap(
                 bitmap.GetHbitmap()
@@ -40,7 +40,7 @@ namespace ColorSpaces
                 BitmapEncoder bitmapEncoder = new BmpBitmapEncoder();
                 bitmapEncoder.Frames.Add(BitmapFrame.Create(bitmapImage));
                 bitmapEncoder.Save(outStream);
-                System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(outStream);
+                var bitmap = new Bitmap(outStream);
 
                 return new Bitmap(bitmap);
             }
@@ -51,7 +51,7 @@ namespace ColorSpaces
         /// </summary>
         /// <param name="n">R,G,B value in range [0,1]</param>
         /// <returns>R,G,B value in range [0,255]</returns>
-        private static double toRGB(double n)
+        private static double ToRgb(double n)
         {
             var result = 255.0 * n;
 
@@ -64,54 +64,53 @@ namespace ColorSpaces
         }
 
         /// <summary>
-        /// Converts image to gray-scale using average algoithm.
+        /// Converts image to gray-scale using average algorithm.
         /// </summary>
-        void convertToGrayScale()
+        void ConvertToGrayScale()
         {
-            Bitmap outputBitmap = new Bitmap((int)m_sourceBitmap.Width, (int)m_sourceBitmap.Height);
+            Bitmap outputBitmap = new Bitmap(_sourceBitmap.Width, _sourceBitmap.Height);
 
             for (int i = 0; i < outputBitmap.Width; i++)
                 for (int j = 0; j < outputBitmap.Height; j++)
                 {
-                    Color color = m_sourceBitmap.GetPixel(i, j);
+                    Color color = _sourceBitmap.GetPixel(i, j);
                     int grayColor = (int)(0.3 * color.R + 0.59 * color.G + 0.11 * color.B);
                     color = Color.FromArgb(color.A, grayColor, grayColor, grayColor);
                     outputBitmap.SetPixel(i, j, color);
                 }
 
-            m_outputPhoto.Background = createImageBrushFromBitmap(outputBitmap);
+            OutputPhoto.Background = CreateImageBrushFromBitmap(outputBitmap);
         }
 
         /// <summary>
         /// Converts color space of an image to the chosen color space.
         /// </summary>
         /// <param name="colorSpace">The chosen color space</param>
-        void convertToColorSpace(string colorSpace)
+        void ConvertToColorSpace(string colorSpace)
         {
-            Bitmap outputBitmap = new Bitmap((int)m_sourceBitmap.Width, (int)m_sourceBitmap.Height);
+            Bitmap outputBitmap = new Bitmap(_sourceBitmap.Width, _sourceBitmap.Height);
 
             for (int i = 0; i < outputBitmap.Width; i++)
                 for (int j = 0; j < outputBitmap.Height; j++)
                 {
-                    Color color = m_sourceBitmap.GetPixel(i, j);
-                    double[] XYZ;
-                    getXYZ(color, out XYZ);
+                    Color color = _sourceBitmap.GetPixel(i, j);
+	                GetXyz(color, out var xyz);
                     switch (colorSpace)
                     {
                         case "Adobe RGB":
-                            color = toAdobeSpace(XYZ);
+                            color = ToAdobeSpace(xyz);
                             break;
                         case "Apple RGB":
-                            color = toAppleSpace(XYZ);
+                            color = ToAppleSpace(xyz);
                             break;
                         case "Wide Gamut":
-                            color = toWideGamutSpace(XYZ);
+                            color = ToWideGamutSpace(xyz);
                             break;
                     }
                     outputBitmap.SetPixel(i, j, color);
                 }
 
-            m_outputPhoto.Background = createImageBrushFromBitmap(outputBitmap);
+            OutputPhoto.Background = CreateImageBrushFromBitmap(outputBitmap);
         }
 
         /// <summary>
@@ -119,8 +118,8 @@ namespace ColorSpaces
         /// Uses gamma conversion to optimize the color.
         /// </summary>
         /// <param name="color">Provided color</param>
-        /// <param name="XYZ">Output table with XYZ coordinates of the provided color</param>
-        void getXYZ(Color color, out double[] XYZ)
+        /// <param name="xyz">Output table with XYZ coordinates of the provided color</param>
+        void GetXyz(Color color, out double[] xyz)
         {
             // Gamma correction
             //double r = (color.R / 255.0 > 0.04045 ? Math.Pow((color.R / 255.0 + 0.055) / 1.055, 2.4) : color.R / 255.0 / 12.92);
@@ -134,26 +133,26 @@ namespace ColorSpaces
             // W won't use this matrix in this case.
             // We could use this matrix with Adobe RGB or Apple RGB conversion 
             // because white points match within these three spaces. 
-            // Although we can't use it with Wide Gamut convertion without another Bradford matrix.
+            // Although we can't use it with Wide Gamut conversion without another Bradford matrix.
             // double X = r * 0.4124 + g * 0.3576 + b * 0.1805;
             // double Y = r * 0.2126 + g * 0.7152 + b * 0.0722;
             // double Z = r * 0.0193 + g * 0.1192 + b * 0.9505;
 
             // Assuming that white point is D50.
             // Uses the Bradford-adapted matrix.
-            double X = r * 0.4360747 + g * 0.3850649 + b * 0.1430804;
-            double Y = r * 0.2225045 + g * 0.7168786 + b * 0.0606169;
-            double Z = r * 0.0139322 + g * 0.0971045 + b * 0.7141733;
+            double x = r * 0.4360747 + g * 0.3850649 + b * 0.1430804;
+            double y = r * 0.2225045 + g * 0.7168786 + b * 0.0606169;
+            double z = r * 0.0139322 + g * 0.0971045 + b * 0.7141733;
 
-            XYZ = new double[3] { X, Y, Z };
+            xyz = new [] { x, y, z };
         }
 
         /// <summary>
         /// Converts provided color in XYZ coordinates to corresponding color in Adobe RGB color space.
         /// </summary>
-        /// <param name="XYZ">Provided color in XYZ coordinates</param>
+        /// <param name="xyz">Provided color in XYZ coordinates</param>
         /// <returns>Color in Adobe RGB color space</returns>
-        Color toAdobeSpace(double[] XYZ)
+        Color ToAdobeSpace(double[] xyz)
         {
             // Basic matrix to calculate the coordinates with D65 white point.
             // W won't use this matrix in this case.
@@ -163,24 +162,24 @@ namespace ColorSpaces
 
             // Assuming that white point is D50.
             // Uses the Bradford-adapted matrix.
-            double r = XYZ[0] * 1.9624274 + XYZ[1] * -0.6105343 + XYZ[2] * -0.3413404;
-            double g = XYZ[0] * -0.9787684 + XYZ[1] * 1.9161415 + XYZ[2] * 0.0334540;
-            double b = XYZ[0] * 0.0286869 + XYZ[1] * -0.1406752 + XYZ[2] * 1.3487655;
+            double r = xyz[0] * 1.9624274 + xyz[1] * -0.6105343 + xyz[2] * -0.3413404;
+            double g = xyz[0] * -0.9787684 + xyz[1] * 1.9161415 + xyz[2] * 0.0334540;
+            double b = xyz[0] * 0.0286869 + xyz[1] * -0.1406752 + xyz[2] * 1.3487655;
 
             // Gamma correction
             r = Math.Pow(r, 1 / 2.2);
             g = Math.Pow(g, 1 / 2.2);
             b = Math.Pow(b, 1 / 2.2);
 
-            return Color.FromArgb(255, (int)toRGB(r), (int)toRGB(g), (int)toRGB(b));
+            return Color.FromArgb(255, (int)ToRgb(r), (int)ToRgb(g), (int)ToRgb(b));
         }
 
         /// <summary>
         /// Converts provided color in XYZ coordinates to corresponding color in Apple RGB color space.
         /// </summary>
-        /// <param name="XYZ">Provided color in XYZ coordinates</param>
+        /// <param name="xyz">Provided color in XYZ coordinates</param>
         /// <returns>Color in Apple RGB color space</returns>
-        Color toAppleSpace(double[] XYZ)
+        Color ToAppleSpace(double[] xyz)
         {
             // Basic matrix to calculate the coordinates with D65 white point.
             // W won't use this matrix in this case.
@@ -190,37 +189,37 @@ namespace ColorSpaces
 
             // Assuming that white point is D50.
             // Uses the Bradford-adapted matrix.
-            double r = XYZ[0] * 2.8510695 + XYZ[1] * -1.3605261 + XYZ[2] * -0.4708281;
-            double g = XYZ[0] * -1.092768 + XYZ[1] * 2.0348871 + XYZ[2] * 0.0227598;
-            double b = XYZ[0] * 0.1027403 + XYZ[1] * -0.2964984 + XYZ[2] * 1.4510659;
+            double r = xyz[0] * 2.8510695 + xyz[1] * -1.3605261 + xyz[2] * -0.4708281;
+            double g = xyz[0] * -1.092768 + xyz[1] * 2.0348871 + xyz[2] * 0.0227598;
+            double b = xyz[0] * 0.1027403 + xyz[1] * -0.2964984 + xyz[2] * 1.4510659;
 
             // Gamma correction
             r = Math.Pow(r, 1 / 1.8);
             g = Math.Pow(g, 1 / 1.8);
             b = Math.Pow(b, 1 / 1.8);
 
-            return Color.FromArgb(255, (int)toRGB(r), (int)toRGB(g), (int)toRGB(b));
+            return Color.FromArgb(255, (int)ToRgb(r), (int)ToRgb(g), (int)ToRgb(b));
         }
 
         /// <summary>
         /// Converts provided color in XYZ coordinates to corresponding color in Wide Gamut color space.
         /// </summary>
-        /// <param name="XYZ">Provided color in XYZ coordinates</param>
+        /// <param name="xyz">Provided color in XYZ coordinates</param>
         /// <returns>Color in Wide Gamut color space</returns>
-        Color toWideGamutSpace(double[] XYZ)
+        Color ToWideGamutSpace(double[] xyz)
         {
             // Assuming that white point is D50.
             // Uses the Bradford-adapted matrix.
-            double r = XYZ[0] * 1.4628067 + XYZ[1] * -0.1840623 + XYZ[2] * -0.2743606;
-            double g = XYZ[0] * -0.5217933 + XYZ[1] * 1.4472381 + XYZ[2] * 0.0677227;
-            double b = XYZ[0] * 0.0349342 + XYZ[1] * -0.096893 + XYZ[2] * 1.2884099;
+            double r = xyz[0] * 1.4628067 + xyz[1] * -0.1840623 + xyz[2] * -0.2743606;
+            double g = xyz[0] * -0.5217933 + xyz[1] * 1.4472381 + xyz[2] * 0.0677227;
+            double b = xyz[0] * 0.0349342 + xyz[1] * -0.096893 + xyz[2] * 1.2884099;
 
             // Gamma correction
             r = Math.Pow(r, 1 / 1.2);
             g = Math.Pow(g, 1 / 1.2);
             b = Math.Pow(b, 1 / 1.2);
 
-            return Color.FromArgb(255, (int)toRGB(r), (int)toRGB(g), (int)toRGB(b));
+            return Color.FromArgb(255, (int)ToRgb(r), (int)ToRgb(g), (int)ToRgb(b));
         }
 
         /// <summary>
@@ -228,10 +227,10 @@ namespace ColorSpaces
         /// </summary>
         /// <param name="visual">Image to save</param>
         /// <param name="fileName">Output file name</param>
-        void saveToBmp(FrameworkElement visual, string fileName)
+        void SaveToBmp(FrameworkElement visual, string fileName)
         {
             var encoder = new BmpBitmapEncoder();
-            saveUsingEncoder(visual, fileName, encoder);
+            SaveUsingEncoder(visual, fileName, encoder);
         }
 
         /// <summary>
@@ -239,10 +238,10 @@ namespace ColorSpaces
         /// </summary>
         /// <param name="visual">Image to save</param>
         /// <param name="fileName">Output file name</param>
-        void saveToPng(FrameworkElement visual, string fileName)
+        void SaveToPng(FrameworkElement visual, string fileName)
         {
             var encoder = new PngBitmapEncoder();
-            saveUsingEncoder(visual, fileName, encoder);
+            SaveUsingEncoder(visual, fileName, encoder);
         }
 
         /// <summary>
@@ -250,10 +249,10 @@ namespace ColorSpaces
         /// </summary>
         /// <param name="visual">Image to save</param>
         /// <param name="fileName">Output file name</param>
-        void saveToJpeg(FrameworkElement visual, string fileName)
+        void SaveToJpeg(FrameworkElement visual, string fileName)
         {
             var encoder = new JpegBitmapEncoder();
-            saveUsingEncoder(visual, fileName, encoder);
+            SaveUsingEncoder(visual, fileName, encoder);
         }
 
         /// <summary>
@@ -261,19 +260,19 @@ namespace ColorSpaces
         /// </summary>
         /// <param name="visual">Image to save</param>
         /// <param name="fileName">Output file name</param>
-        void saveToGif(FrameworkElement visual, string fileName)
+        void SaveToGif(FrameworkElement visual, string fileName)
         {
             var encoder = new GifBitmapEncoder();
-            saveUsingEncoder(visual, fileName, encoder);
+            SaveUsingEncoder(visual, fileName, encoder);
         }
 
         /// <summary>
-        /// Universal function to save image with a chosen extention.
+        /// Universal function to save image with a chosen extension.
         /// </summary>
         /// <param name="visual">Image to save</param>
         /// <param name="fileName">Output file name</param>
         /// <param name="encoder">Matching encoder</param>
-        void saveUsingEncoder(FrameworkElement visual, string fileName, BitmapEncoder encoder)
+        void SaveUsingEncoder(FrameworkElement visual, string fileName, BitmapEncoder encoder)
         {
             RenderTargetBitmap bitmap = new RenderTargetBitmap((int)visual.ActualWidth, (int)visual.ActualHeight, 96, 96, PixelFormats.Pbgra32);
             bitmap.Render(visual);
@@ -292,18 +291,18 @@ namespace ColorSpaces
         /// <param name="kR">Number of red intervals</param>
         /// <param name="kG">Number of green intervals</param>
         /// <param name="kB">Number of blue intervals</param>
-        void reduceColors(int kR, int kG, int kB)
+        void ReduceColors(int kR, int kG, int kB)
         {
-            int intervalR = (int)(255 / kR);
-            int intervalG = (int)(255 / kG);
-            int intervalB = (int)(255 / kB);
+            int intervalR = 255 / kR;
+            int intervalG = 255 / kG;
+            int intervalB = 255 / kB;
 
-            Bitmap outputBitmap = new Bitmap((int)m_sourceBitmap.Width, (int)m_sourceBitmap.Height);
+            Bitmap outputBitmap = new Bitmap(_sourceBitmap.Width, _sourceBitmap.Height);
 
             for (int i = 0; i < outputBitmap.Width; i++)
                 for (int j = 0; j < outputBitmap.Height; j++)
                 {
-                    Color color = m_sourceBitmap.GetPixel(i, j);
+                    Color color = _sourceBitmap.GetPixel(i, j);
                     int rI = color.R / intervalR;
                     int gI = color.G / intervalG;
                     int bI = color.B / intervalB;
@@ -312,14 +311,14 @@ namespace ColorSpaces
                     if (gI == kG) gI--;
                     if (bI == kB) bI--;
 
-                    int r = (int)toRGB((rI + 0.5) * intervalR / 255);
-                    int g = (int)toRGB((gI + 0.5) * intervalG / 255);
-                    int b = (int)toRGB((bI + 0.5) * intervalB / 255);
+                    int r = (int)ToRgb((rI + 0.5) * intervalR / 255);
+                    int g = (int)ToRgb((gI + 0.5) * intervalG / 255);
+                    int b = (int)ToRgb((bI + 0.5) * intervalB / 255);
                     color = Color.FromArgb(255, r, g, b);
                     outputBitmap.SetPixel(i, j, color);
                 }
 
-            m_outputPhoto.Background = createImageBrushFromBitmap(outputBitmap);
+            OutputPhoto.Background = CreateImageBrushFromBitmap(outputBitmap);
         }
     }
 }
