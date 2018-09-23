@@ -19,7 +19,21 @@ namespace ColorSpaces
 		Bitmap _sourceBitmap;
 		readonly ImageBrush _whiteSmokeBitmap;
 
+		public ICommand OpenCommand => new RelayCommand(OpenFile);
+
+		public ICommand SaveCommand => new RelayCommand(SaveFile);
+
 		public ICommand ConvertColorSpaceCommand => new RelayCommand<ColorSpace>(ConvertToColorSpace);
+
+		public ICommand ConvertToGrayScaleCommand => new RelayCommand(ConvertToGrayScale);
+
+		public ICommand ReduceColorsCommand => new RelayCommand(ReduceColors);
+
+		public int Kr { get; set; }
+
+		public int Kg { get; set; }
+
+		public int Kb { get; set; }
 
 		public MainWindow()
 		{
@@ -29,9 +43,13 @@ namespace ColorSpaces
 			grayBitmap.SetPixel(0, 0, Color.WhiteSmoke);
 			_whiteSmokeBitmap = grayBitmap.CreateImageBrush();
 			DataContext = this;
+
+			Kr = 4;
+			Kg = 2;
+			Kb = 4;
 		}
 
-		private void OpenButton_Click(object sender, RoutedEventArgs e)
+		private void OpenFile()
 		{
 			var openFileDialog = new OpenFileDialog
 			{
@@ -53,7 +71,7 @@ namespace ColorSpaces
 			}
 		}
 
-		private void SaveButton_Click(object sender, RoutedEventArgs e)
+		private void SaveFile()
 		{
 			if (_sourceBitmap == null || OutputPhoto.Background == _whiteSmokeBitmap)
 				return;
@@ -93,7 +111,20 @@ namespace ColorSpaces
 			}
 		}
 
-		private void ConvertToGrayScaleButton_Click(object sender, RoutedEventArgs e)
+		private void SaveToFile(FrameworkElement visual, string fileName, BitmapEncoder encoder)
+		{
+			var bitmap = new RenderTargetBitmap((int)visual.ActualWidth, (int)visual.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+			bitmap.Render(visual);
+			var frame = BitmapFrame.Create(bitmap);
+			encoder.Frames.Add(frame);
+
+			using (var stream = File.Create(fileName))
+			{
+				encoder.Save(stream);
+			}
+		}
+
+		private void ConvertToGrayScale()
 		{
 			if (_sourceBitmap == null) return;
 			OutputPhoto.Background = _sourceBitmap.ToGrayScale();
@@ -117,23 +148,10 @@ namespace ColorSpaces
 			OutputPhoto.Background = outputBitmap.CreateImageBrush();
 		}
 
-		private void ReduceButton_Click(object sender, RoutedEventArgs e)
+		private void ReduceColors()
 		{
 			if (_sourceBitmap == null) return;
-			OutputPhoto.Background = _sourceBitmap.ReduceColors(int.Parse(Kr.Text), int.Parse(Kg.Text), int.Parse(Kb.Text));
-		}
-		
-		private void SaveToFile(FrameworkElement visual, string fileName, BitmapEncoder encoder)
-		{
-			var bitmap = new RenderTargetBitmap((int)visual.ActualWidth, (int)visual.ActualHeight, 96, 96, PixelFormats.Pbgra32);
-			bitmap.Render(visual);
-			var frame = BitmapFrame.Create(bitmap);
-			encoder.Frames.Add(frame);
-
-			using (var stream = File.Create(fileName))
-			{
-				encoder.Save(stream);
-			}
+			OutputPhoto.Background = _sourceBitmap.ReduceColors(Kr, Kg, Kb);
 		}
 	}
 }

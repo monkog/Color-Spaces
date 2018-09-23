@@ -67,6 +67,7 @@
     <Compile Include="ColorSpace.cs" />
     <Compile Include="Helpers\ColorUtils.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
+    <Compile Include="Helpers\RelayCommandT.cs" />
     <Compile Include="ImageConverters\ColorReducer.cs" />
     <Compile Include="ImageConverters\ColorSpaceConverter.cs" />
     <Compile Include="ImageConverters\GrayScaleConverter.cs" />

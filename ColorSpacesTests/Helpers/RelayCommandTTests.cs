@@ -4,14 +4,14 @@ using NUnit.Framework;
 namespace ColorSpacesTests.Helpers
 {
 	[TestFixture]
-	public class RelayCommandTests
+	public class RelayCommandTTests
 	{
-		private RelayCommand _unitUnderTest;
+		private RelayCommand<object> _unitUnderTest;
 
 		[SetUp]
 		public void Initialize()
 		{
-			_unitUnderTest = new RelayCommand(() => { });
+			_unitUnderTest = new RelayCommand<object>(param => { });
 		}
 
 		[Test]
@@ -25,12 +25,12 @@ namespace ColorSpacesTests.Helpers
 		public void Execute_Parameter_Executed()
 		{
 			var value = string.Empty;
-			var expectedValue = "Hello";
-			var unitUnderTest = new RelayCommand(() => { value = expectedValue; });
+			var passedParam = "Hello";
+			var unitUnderTest = new RelayCommand<string>(param => { value = param; });
 
-			unitUnderTest.Execute(null);
+			unitUnderTest.Execute(passedParam);
 
-			Assert.AreEqual(expectedValue, value);
+			Assert.AreEqual(passedParam, value);
 		}
 	}
 }
