@@ -19,9 +19,9 @@ namespace ColorSpaces.ImageConverters
 		[ExcludeFromCodeCoverage]
 		public static ImageBrush ReduceColors(this Bitmap source, int kR, int kG, int kB)
 		{
-			var intervalR = 255 / kR;
-			var intervalG = 255 / kG;
-			var intervalB = 255 / kB;
+			var intervalR = 256 / kR;
+			var intervalG = 256 / kG;
+			var intervalB = 256 / kB;
 
 			var outputBitmap = new Bitmap(source.Width, source.Height);
 
@@ -29,7 +29,7 @@ namespace ColorSpaces.ImageConverters
 				for (int j = 0; j < outputBitmap.Height; j++)
 				{
 					var color = source.GetPixel(i, j);
-					color = color.ReduceColor(kR, kG, kB, intervalR, intervalG, intervalB);
+					color = color.Reduce(kR, kG, kB, intervalR, intervalG, intervalB);
 					outputBitmap.SetPixel(i, j, color);
 				}
 
@@ -47,16 +47,12 @@ namespace ColorSpaces.ImageConverters
 		/// <param name="intervalG">Green interval span.</param>
 		/// <param name="intervalB">Blue interval span.</param>
 		/// <returns>Reduced color.</returns>
-		public static Color ReduceColor(this Color color, int kR, int kG, int kB, int intervalR, int intervalG, int intervalB)
+		public static Color Reduce(this Color color, int kR, int kG, int kB, int intervalR, int intervalG, int intervalB)
 		{
 			var rI = color.R / intervalR;
 			var gI = color.G / intervalG;
 			var bI = color.B / intervalB;
-
-			if (rI == kR) rI--;
-			if (gI == kG) gI--;
-			if (bI == kB) bI--;
-
+			
 			var r = ((rI + 0.5) * intervalR / 255).ToRgb();
 			var g = ((gI + 0.5) * intervalG / 255).ToRgb();
 			var b = ((bI + 0.5) * intervalB / 255).ToRgb();

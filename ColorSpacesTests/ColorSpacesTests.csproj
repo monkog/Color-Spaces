@@ -51,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\ColorUtilsTests.cs" />
+    <Compile Include="Helpers\RelayCommandTests.cs" />
+    <Compile Include="ImageConverters\ColorReducerTests.cs" />
     <Compile Include="ImageConverters\GrayScaleConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

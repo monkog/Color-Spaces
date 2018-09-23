@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using ColorSpaces.Helpers;
 
 namespace ColorSpaces.ImageConverters
 {
+	[ExcludeFromCodeCoverage]
 	public static class ColorSpaceConverter
 	{
 		/// <summary>
