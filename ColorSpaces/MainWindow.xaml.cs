@@ -14,10 +14,10 @@ using Color = System.Drawing.Color;
 namespace ColorSpaces
 {
 	[ExcludeFromCodeCoverage]
-	public partial class MainWindow : Window
+	public partial class MainWindow
 	{
-		Bitmap _sourceBitmap;
-		readonly ImageBrush _whiteSmokeBitmap;
+		private Bitmap _sourceBitmap;
+		private readonly ImageBrush _whiteSmokeBitmap;
 
 		public ICommand OpenCommand => new RelayCommand(OpenFile);
 
